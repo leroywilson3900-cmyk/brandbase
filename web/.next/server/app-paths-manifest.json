@@ -5,12 +5,13 @@
   "/faq/page": "app/faq/page.js",
   "/page": "app/page.js",
   "/dashboard/analytics/page": "app/dashboard/analytics/page.js",
+  "/dashboard/ai/page": "app/dashboard/ai/page.js",
   "/dashboard/appointments/page": "app/dashboard/appointments/page.js",
-  "/dashboard/payments/page": "app/dashboard/payments/page.js",
-  "/dashboard/customers/page": "app/dashboard/customers/page.js",
-  "/dashboard/quotes/page": "app/dashboard/quotes/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/social/page": "app/dashboard/social/page.js",
+  "/dashboard/quotes/page": "app/dashboard/quotes/page.js",
   "/dashboard/leads/page": "app/dashboard/leads/page.js",
+  "/dashboard/social/page": "app/dashboard/social/page.js",
+  "/dashboard/customers/page": "app/dashboard/customers/page.js",
+  "/dashboard/payments/page": "app/dashboard/payments/page.js",
   "/dashboard/settings/page": "app/dashboard/settings/page.js"
 }

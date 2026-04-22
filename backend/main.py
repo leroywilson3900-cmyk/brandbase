@@ -63,7 +63,7 @@ async def root():
     }
 
 # ============ ROUTES ============
-from routes import accounts, leads, quotes, appointments, auth, social, webhooks, ai, customer_portal, social_automation, chat
+from routes import accounts, leads, quotes, appointments, auth, social, webhooks, ai, customer_portal, social_automation, chat, phase2_ai
 
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(accounts.router, prefix="/accounts", tags=["Accounts"])
@@ -76,6 +76,7 @@ app.include_router(ai.router, prefix="/ai", tags=["AI Services"])
 app.include_router(customer_portal.router, prefix="/customer-portal", tags=["Customer Portal"])
 app.include_router(social_automation.router, prefix="/social-auto", tags=["Social Automation"])
 app.include_router(chat.router, prefix="/chat", tags=["Chat"])
+app.include_router(phase2_ai.router, prefix="/ai-phase2", tags=["Phase 2 AI"])
 
 # ============ ERROR HANDLERS ============
 @app.exception_handler(HTTPException)
