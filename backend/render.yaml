@@ -12,5 +12,13 @@ services:
     environmentVariables:
       - key: ENV
         value: production
-      - key: PYTHON_VERSION
-        value: "3.11"
+      - key: DATABASE_URL
+        value: postgresql://postgres:Turk@48271525@db.ynijhapewbdtipyzknir.supabase.co:5432/postgres
+      - key: SUPABASE_URL
+        value: https://ynijhapewbdtipyzknir.supabase.co
+      - key: SUPABASE_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InluaWpoYXBld2JkdGlweXprbmlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4OTE2ODcsImV4cCI6MjA5MjQ2NzY4N30.vmLQQAW70oZw35xbH5CdjsZ8tB2-3BUZycAMCxYblBQ
+      - key: JWT_SECRET
+        value: brandbase_jwt_secret_change_this_in_production_xyz123
+      - key: CORS_ORIGINS
+        value: https://brandbase.app,https://*.vercel.app,http://localhost:3000
