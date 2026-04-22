@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: brandbase-api
+    env: python
+    pythonVersion: "3.11"
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    regions:
+      - oregon
+    plan: free
+    environmentVariables:
+      - key: ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: "3.11"
