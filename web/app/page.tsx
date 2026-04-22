@@ -45,6 +45,7 @@ export default function LandingPage() {
           <nav style={{ display: 'flex', alignItems: 'center', gap: 36 }}>
             <Link href="#features" style={{ fontSize: 14, fontWeight: 500, color: '#595959', textDecoration: 'none' }}>Features</Link>
             <Link href="#pricing" style={{ fontSize: 14, fontWeight: 500, color: '#595959', textDecoration: 'none' }}>Pricing</Link>
+            <Link href="/faq" style={{ fontSize: 14, fontWeight: 500, color: '#595959', textDecoration: 'none' }}>FAQ</Link>
             <Link href="/auth/login" style={{ fontSize: 14, fontWeight: 500, color: '#595959', textDecoration: 'none' }}>Sign in</Link>
             <Link href="/auth/signup" style={{ padding: '9px 22px', background: '#1677ff', color: '#fff', borderRadius: 8, fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 4px 12px rgba(22,119,255,0.25)', transition: 'all 0.2s' }}>
               Start free trial
