@@ -1,171 +1,88 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { Building2, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { useState } from 'react'
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
-    
-    // Mock login - in production this would call the API
-    setTimeout(() => {
-      if (email && password) {
-        router.push('/dashboard')
-      } else {
-        setError('Please enter your email and password')
-        setLoading(false)
-      }
-    }, 1000)
+    setTimeout(() => setLoading(false), 1500)
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex">
-      {/* Left side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-900 to-slate-950 p-12 flex-col justify-between relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" />
-        
-        <div className="relative">
-          <div className="flex items-center gap-3 mb-16">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
-              <Building2 className="w-7 h-7 text-white" />
+    <div style={{ minHeight: '100vh', background: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      <div style={{ width: '100%', maxWidth: 400 }}>
+        {/* Logo */}
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+            <div style={{ width: 40, height: 40, borderRadius: 8, background: '#1677ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ color: '#fff', fontWeight: 700, fontSize: 18 }}>B</span>
             </div>
-            <span className="text-2xl font-bold text-white">BrandBase</span>
+            <span style={{ fontWeight: 700, fontSize: 22, color: '#262626' }}>BrandBase</span>
           </div>
-          
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Welcome back to your business hub.
-          </h1>
-          <p className="text-xl text-slate-400">
-            Your leads, quotes, and social content — all waiting for you.
-          </p>
+          <p style={{ fontSize: 14, color: '#8c8c8c' }}>Sign in to your account</p>
         </div>
-        
-        <div className="relative">
-          <div className="glass-card rounded-2xl p-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-sm font-semibold">JM</div>
-              <div>
-                <div className="text-white font-medium">James Martinez</div>
-                <div className="text-sm text-slate-400">Martinez Roofing</div>
-              </div>
-            </div>
-            <p className="text-slate-300 text-sm italic">
-              "Best decision I made for my business. The AI assistant alone is worth 10x the price."
-            </p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Right side - Login form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md">
-          {/* Mobile logo */}
-          <div className="lg:hidden flex items-center justify-center gap-3 mb-12">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
-              <Building2 className="w-7 h-7 text-white" />
-            </div>
-            <span className="text-2xl font-bold text-white">BrandBase</span>
-          </div>
-          
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-white mb-2">Sign in to your account</h2>
-            <p className="text-slate-400">Enter your credentials to access your dashboard</p>
-          </div>
-          
-          {error && (
-            <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-              {error}
-            </div>
-          )}
-          
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
-                Email address
-              </label>
+
+        {/* Card */}
+        <div style={{ background: '#fff', borderRadius: 8, padding: 32, boxShadow: '0 1px 2px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.06)', border: '1px solid #f0f0f0' }}>
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ display: 'block', fontSize: 14, fontWeight: 600, color: '#262626', marginBottom: 6 }}>Email</label>
               <input
-                id="email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input-field"
-                placeholder="you@yourbusiness.com"
+                placeholder="marcus@bayouroofing.com"
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none', transition: 'border-color 0.2s' }}
                 required
               />
             </div>
-            
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-field pr-12"
-                  placeholder="Enter your password"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
-                >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                </button>
+
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                <label style={{ fontSize: 14, fontWeight: 600, color: '#262626' }}>Password</label>
+                <a href="#" style={{ fontSize: 13, color: '#1677ff', textDecoration: 'none' }}>Forgot password?</a>
               </div>
+              <input
+                type="password"
+                placeholder="••••••••"
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none', transition: 'border-color 0.2s' }}
+                required
+              />
             </div>
-            
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-emerald-500 focus:ring-emerald-500" />
-                <span className="text-sm text-slate-300">Remember me</span>
-              </label>
-              <a href="#" className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors">
-                Forgot password?
-              </a>
-            </div>
-            
+
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
+              style={{
+                width: '100%',
+                padding: '10px',
+                background: loading ? '#bae0ff' : '#1677ff',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 6,
+                fontSize: 15,
+                fontWeight: 600,
+                cursor: loading ? 'not-allowed' : 'pointer',
+                transition: 'background 0.2s',
+              }}
             >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Signing in...
-                </>
-              ) : (
-                'Sign in'
-              )}
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
-          
-          <div className="mt-8 text-center">
-            <p className="text-slate-400">
-              Don't have an account?{' '}
-              <Link href="/auth/signup" className="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
-                Start free trial
-              </Link>
-            </p>
+
+          <div style={{ marginTop: 24, textAlign: 'center', fontSize: 14, color: '#8c8c8c' }}>
+            Don't have an account?{' '}
+            <Link href="/auth/signup" style={{ color: '#1677ff', fontWeight: 600, textDecoration: 'none' }}>
+              Sign up
+            </Link>
           </div>
         </div>
+
+        <p style={{ textAlign: 'center', fontSize: 13, color: '#bfbfbf', marginTop: 24 }}>
+          © 2026 BrandBase. All rights reserved.
+        </p>
       </div>
     </div>
   )

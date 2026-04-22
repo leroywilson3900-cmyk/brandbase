@@ -1,60 +1,19 @@
 'use client'
 
-import { 
-  Users, 
-  FileText, 
-  DollarSign, 
-  TrendingUp,
-  Clock,
-  ArrowUpRight,
-  ArrowDownRight,
-  Calendar,
-  MessageSquare,
-  Star,
-  ChevronRight,
-  Plus
-} from 'lucide-react'
 import Link from 'next/link'
+import { Plus, ArrowUpRight, ArrowDownRight, Clock, FileText, Users, DollarSign, TrendingUp, Calendar, ChevronRight, ArrowRight } from 'lucide-react'
 
 const metrics = [
-  {
-    name: 'Active Leads',
-    value: '12',
-    change: '+3 this week',
-    changeType: 'up',
-    icon: Users,
-    color: 'blue'
-  },
-  {
-    name: 'Quotes Sent',
-    value: '8',
-    change: '2 pending approval',
-    changeType: 'neutral',
-    icon: FileText,
-    color: 'amber'
-  },
-  {
-    name: 'Revenue',
-    value: '$7,641',
-    change: '+$2,150 this month',
-    changeType: 'up',
-    icon: DollarSign,
-    color: 'emerald'
-  },
-  {
-    name: 'Win Rate',
-    value: '68%',
-    change: '+12% vs last month',
-    changeType: 'up',
-    icon: TrendingUp,
-    color: 'purple'
-  }
+  { label: 'Active Leads', value: '12', change: '+3 this week', up: true, icon: Users, color: '#1677ff' },
+  { label: 'Quotes Sent', value: '8', change: '2 pending', up: null, icon: FileText, color: '#faad14' },
+  { label: 'Revenue', value: '$7,641', change: '+$2,150 this month', up: true, icon: DollarSign, color: '#52c41a' },
+  { label: 'Win Rate', value: '68%', change: '+12% vs last month', up: true, icon: TrendingUp, color: '#722ed1' },
 ]
 
 const recentLeads = [
-  { name: 'Jennifer Mouton', service: 'Roofing - Shingle Replacement', status: 'new_lead', time: '2h ago' },
-  { name: 'Robert Cormier', service: 'Roofing - Full Replacement', status: 'appointment_set', time: '5h ago' },
-  { name: 'Sarah Hebert', service: 'Roofing - Repair', status: 'quote_sent', time: '1d ago' },
+  { name: 'Jennifer Mouton', service: 'Roofing - Shingle Replacement', status: 'New Lead', statusColor: '#1677ff', time: '2h ago' },
+  { name: 'Robert Cormier', service: 'Roofing - Full Replacement', status: 'Appt Set', statusColor: '#52c41a', time: '5h ago' },
+  { name: 'Sarah Hebert', service: 'Roofing - Repair', status: 'Quote Sent', statusColor: '#faad14', time: '1d ago' },
 ]
 
 const upcomingAppointments = [
@@ -62,101 +21,66 @@ const upcomingAppointments = [
   { customer: 'Michael Vincent', type: 'On-site Estimate', time: 'Jan 20, 8:00 AM', user: 'Jim Butler' },
 ]
 
-const statusColors: Record<string, string> = {
-  new_lead: 'badge-info',
-  followup_call: 'badge-warning',
-  appointment_set: 'badge-success',
-  on_site_visit: 'badge-success',
-  quote_sent: 'badge-warning',
-  deposit_received: 'badge-success',
-  job_in_progress: 'badge-success',
-  payment_complete: 'badge-success',
-  job_done: 'badge-success',
-  lost: 'badge-error'
-}
-
-const statusLabels: Record<string, string> = {
-  new_lead: 'New',
-  followup_call: 'Follow-up',
-  appointment_set: 'Appt Set',
-  on_site_visit: 'On-site',
-  quote_sent: 'Quote Sent',
-  deposit_received: 'Deposit',
-  job_in_progress: 'In Progress',
-  payment_complete: 'Paid',
-  job_done: 'Complete',
-  lost: 'Lost'
-}
-
 export default function DashboardPage() {
   return (
-    <div className="space-y-8">
+    <div>
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
         <div>
-          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-slate-400 mt-1">Welcome back, Marcus</p>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#262626', marginBottom: 4 }}>Dashboard</h1>
+          <p style={{ fontSize: 14, color: '#8c8c8c' }}>Welcome back, Marcus</p>
         </div>
-        <div className="flex items-center gap-3">
-          <Link href="/dashboard/leads/new" className="btn-primary flex items-center gap-2">
-            <Plus className="w-5 h-5" />
-            New Lead
-          </Link>
-        </div>
+        <Link href="/dashboard/leads" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 20px', background: '#1677ff', color: '#fff', borderRadius: 6, fontWeight: 500, fontSize: 14, textDecoration: 'none' }}>
+          <Plus size={16} /> New Lead
+        </Link>
       </div>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {metrics.map((metric) => (
-          <div key={metric.name} className="metric-card">
-            <div className="flex items-center justify-between mb-4">
-              <div className={`w-12 h-12 rounded-xl bg-${metric.color}-500/10 flex items-center justify-center`}>
-                <metric.icon className={`w-6 h-6 text-${metric.color}-400`} />
+      {/* Metrics */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 24 }}>
+        {metrics.map((m) => (
+          <div key={m.label} className="stat-card" style={{ padding: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 8, background: `${m.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <m.icon size={20} style={{ color: m.color }} />
               </div>
-              {metric.changeType === 'up' && (
-                <ArrowUpRight className="w-5 h-5 text-emerald-400" />
-              )}
-              {metric.changeType === 'down' && (
-                <ArrowDownRight className="w-5 h-5 text-red-400" />
-              )}
+              {m.up === true && <ArrowUpRight size={18} style={{ color: '#52c41a' }} />}
+              {m.up === false && <ArrowDownRight size={18} style={{ color: '#ff4d4f' }} />}
             </div>
-            <div className="metric-value">{metric.value}</div>
-            <div className="metric-label">{metric.name}</div>
-            <div className={`metric-change ${metric.changeType}`}>{metric.change}</div>
+            <div className="stat-value" style={{ fontSize: 24 }}>{m.value}</div>
+            <div className="stat-label">{m.label}</div>
+            <div style={{ fontSize: 12, color: m.up === true ? '#52c41a' : m.up === false ? '#ff4d4f' : '#8c8c8c', marginTop: 8 }}>{m.change}</div>
           </div>
         ))}
       </div>
 
-      {/* Main content grid */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      {/* Main grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24 }}>
         {/* Recent Leads */}
-        <div className="lg:col-span-2 glass-card rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-white">Recent Leads</h2>
-            <Link href="/dashboard/leads" className="text-emerald-400 hover:text-emerald-300 text-sm font-medium flex items-center gap-1">
-              View all <ChevronRight className="w-4 h-4" />
+        <div className="stat-card" style={{ padding: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <h2 style={{ fontSize: 16, fontWeight: 600, color: '#262626' }}>Recent Leads</h2>
+            <Link href="/dashboard/leads" style={{ fontSize: 13, color: '#1677ff', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+              View all <ChevronRight size={14} />
             </Link>
           </div>
-          
-          <div className="space-y-3">
-            {recentLeads.map((lead, i) => (
-              <div key={i} className="flex items-center justify-between p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 transition-colors cursor-pointer">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-semibold">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {recentLeads.map((lead) => (
+              <div key={lead.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 16, border: '1px solid #f0f0f0', borderRadius: 8, cursor: 'pointer', transition: 'all 0.15s' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#e6f4ff', color: '#1677ff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: 13 }}>
                     {lead.name.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div>
-                    <div className="font-medium text-white">{lead.name}</div>
-                    <div className="text-sm text-slate-400">{lead.service}</div>
+                    <div style={{ fontWeight: 600, fontSize: 14, color: '#262626' }}>{lead.name}</div>
+                    <div style={{ fontSize: 13, color: '#8c8c8c' }}>{lead.service}</div>
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className={`badge ${statusColors[lead.status]}`}>
-                    {statusLabels[lead.status]}
+                <div style={{ textAlign: 'right' }}>
+                  <span style={{ fontSize: 12, padding: '2px 10px', borderRadius: 4, background: `${lead.statusColor}15`, color: lead.statusColor, fontWeight: 500, border: `1px solid ${lead.statusColor}30` }}>
+                    {lead.status}
                   </span>
-                  <div className="text-xs text-slate-500 mt-1 flex items-center gap-1 justify-end">
-                    <Clock className="w-3 h-3" />
-                    {lead.time}
+                  <div style={{ fontSize: 12, color: '#bfbfbf', marginTop: 4, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 4 }}>
+                    <Clock size={12} /> {lead.time}
                   </div>
                 </div>
               </div>
@@ -164,96 +88,67 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Upcoming Appointments */}
-        <div className="glass-card rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-white">Upcoming</h2>
-            <Link href="/dashboard/appointments" className="text-emerald-400 hover:text-emerald-300 text-sm font-medium flex items-center gap-1">
-              View all <ChevronRight className="w-4 h-4" />
+        {/* Upcoming */}
+        <div className="stat-card" style={{ padding: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <h2 style={{ fontSize: 16, fontWeight: 600, color: '#262626' }}>Upcoming</h2>
+            <Link href="/dashboard/appointments" style={{ fontSize: 13, color: '#1677ff', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+              View all <ChevronRight size={14} />
             </Link>
           </div>
-          
-          <div className="space-y-4">
-            {upcomingAppointments.map((apt, i) => (
-              <div key={i} className="p-4 rounded-xl bg-slate-800/50">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-blue-400" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {upcomingAppointments.map((apt) => (
+              <div key={apt.customer} style={{ padding: 16, border: '1px solid #f0f0f0', borderRadius: 8 }}>
+                <div style={{ display: 'flex', gap: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 8, background: '#e6f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Calendar size={18} style={{ color: '#1677ff' }} />
                   </div>
-                  <div className="flex-1">
-                    <div className="font-medium text-white">{apt.customer}</div>
-                    <div className="text-sm text-slate-400">{apt.type}</div>
-                    <div className="text-sm text-emerald-400 mt-1">{apt.time}</div>
-                    <div className="text-xs text-slate-500 mt-1">Assigned to {apt.user}</div>
+                  <div>
+                    <div style={{ fontWeight: 600, fontSize: 14, color: '#262626' }}>{apt.customer}</div>
+                    <div style={{ fontSize: 13, color: '#8c8c8c' }}>{apt.type}</div>
+                    <div style={{ fontSize: 13, color: '#52c41a', marginTop: 4 }}>{apt.time}</div>
+                    <div style={{ fontSize: 12, color: '#bfbfbf', marginTop: 2 }}>{apt.user}</div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          
-          <Link href="/dashboard/appointments/new" className="mt-4 btn-secondary w-full flex items-center justify-center gap-2">
-            <Plus className="w-4 h-4" />
+          <Link href="/dashboard/appointments" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16, padding: '10px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, fontWeight: 500, color: '#595959', textDecoration: 'none' }}>
             Schedule Appointment
           </Link>
         </div>
       </div>
 
-      {/* Quick Actions + AI Insights */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Quick Actions */}
-        <div className="glass-card rounded-2xl p-6">
-          <h2 className="text-xl font-semibold text-white mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-2 gap-3">
-            <Link href="/dashboard/leads/new" className="p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 transition-colors flex items-center gap-3">
-              <Users className="w-5 h-5 text-blue-400" />
-              <span className="text-slate-300">Add Lead</span>
-            </Link>
-            <Link href="/dashboard/quotes/new" className="p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 transition-colors flex items-center gap-3">
-              <FileText className="w-5 h-5 text-amber-400" />
-              <span className="text-slate-300">Create Quote</span>
-            </Link>
-            <Link href="/dashboard/social/compose" className="p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 transition-colors flex items-center gap-3">
-              <MessageSquare className="w-5 h-5 text-purple-400" />
-              <span className="text-slate-300">Compose Post</span>
-            </Link>
-            <Link href="/dashboard/analytics" className="p-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 transition-colors flex items-center gap-3">
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
-              <span className="text-slate-300">View Analytics</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* AI Insights */}
-        <div className="glass-card rounded-2xl p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-xl font-semibold text-white">AI Insights</h2>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-medium">Beta</span>
-          </div>
-          <div className="space-y-4">
-            <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
-              <div className="flex items-start gap-3">
-                <Star className="w-5 h-5 text-emerald-400 mt-0.5" />
-                <div>
-                  <div className="font-medium text-white">Hot Lead Detected</div>
-                  <div className="text-sm text-slate-400 mt-1">
-                    Robert Cormier has responded 3 times this week. Consider calling today.
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="p-4 rounded-xl bg-blue-500/5 border border-blue-500/20">
-              <div className="flex items-start gap-3">
-                <TrendingUp className="w-5 h-5 text-blue-400 mt-0.5" />
-                <div>
-                  <div className="font-medium text-white">Best Time to Post</div>
-                  <div className="text-sm text-slate-400 mt-1">
-                    Thursday 10 AM on Instagram got 40% more engagement last month.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Quick Actions */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginTop: 24 }}>
+        {[
+          { label: 'Add Lead', href: '/dashboard/leads', icon: Plus, color: '#1677ff' },
+          { label: 'Create Quote', href: '/dashboard/quotes', icon: FileText, color: '#faad14' },
+          { label: 'Schedule Job', href: '/dashboard/appointments', icon: Calendar, color: '#722ed1' },
+          { label: 'View Analytics', href: '/dashboard/analytics', icon: TrendingUp, color: '#52c41a' },
+        ].map((action) => (
+          <Link
+            key={action.label}
+            href={action.href}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: 16,
+              background: '#fff',
+              border: '1px solid #f0f0f0',
+              borderRadius: 8,
+              textDecoration: 'none',
+              color: '#595959',
+              fontSize: 14,
+              fontWeight: 500,
+              transition: 'all 0.15s',
+            }}
+          >
+            <action.icon size={18} style={{ color: action.color }} />
+            {action.label}
+          </Link>
+        ))}
       </div>
     </div>
   )

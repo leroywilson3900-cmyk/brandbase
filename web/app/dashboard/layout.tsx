@@ -1,10 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
-  Building2,
   LayoutDashboard,
   Users,
   FileText,
@@ -14,23 +12,17 @@ import {
   BarChart3,
   Settings,
   LogOut,
-  Menu,
-  X,
-  Bell,
   Search,
+  Bell,
   ChevronDown,
-  Clock,
-  TrendingUp,
-  DollarSign,
-  UserPlus
 } from 'lucide-react'
 
-const navigation = [
+const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Leads', href: '/dashboard/leads', icon: Users },
   { name: 'Quotes', href: '/dashboard/quotes', icon: FileText },
   { name: 'Appointments', href: '/dashboard/appointments', icon: Calendar },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserPlus },
+  { name: 'Customers', href: '/dashboard/customers', icon: Users },
   { name: 'Payments', href: '/dashboard/payments', icon: CreditCard },
   { name: 'Social', href: '/dashboard/social', icon: MessageSquare },
   { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
@@ -38,135 +30,107 @@ const navigation = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-slate-950 flex">
-      {/* Mobile sidebar backdrop */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f5f5' }}>
       {/* Sidebar */}
-      <aside className={`
-        fixed lg:static inset-y-0 left-0 z-50 w-72 bg-slate-900 border-r border-slate-800
-        transform transition-transform duration-300 lg:translate-x-0
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        <div className="h-full flex flex-col">
-          {/* Logo */}
-          <div className="p-6 border-b border-slate-800">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
-                <Building2 className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <span className="text-lg font-bold text-white">BrandBase</span>
-                <div className="text-xs text-slate-400">Bayou Roofing</div>
-              </div>
+      <aside style={{ width: 240, background: '#fff', borderRight: '1px solid #f0f0f0', display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh' }}>
+        {/* Logo */}
+        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f0f0f0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 32, height: 32, borderRadius: 6, background: '#1677ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>B</span>
+            </div>
+            <div>
+              <span style={{ fontWeight: 700, fontSize: 15, color: '#262626' }}>BrandBase</span>
+              <div style={{ fontSize: 11, color: '#8c8c8c' }}>Bayou Roofing</div>
             </div>
           </div>
+        </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setSidebarOpen(false)}
-                  className={`
-                    flex items-center gap-3 px-4 py-3 rounded-xl transition-all
-                    ${isActive 
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
-                      : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-                    }
-                  `}
-                >
-                  <item.icon className="w-5 h-5" />
-                  <span className="font-medium">{item.name}</span>
-                </Link>
-              )
-            })}
-          </nav>
-
-          {/* User section */}
-          <div className="p-4 border-t border-slate-800">
-            <div className="relative">
-              <button
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-800 transition-colors"
+        {/* Nav */}
+        <nav style={{ flex: 1, padding: '12px 8px', overflowY: 'auto' }}>
+          {navItems.map((item) => {
+            const active = pathname === item.href
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  padding: '10px 16px',
+                  borderRadius: 6,
+                  marginBottom: 2,
+                  color: active ? '#1677ff' : '#595959',
+                  background: active ? '#e6f4ff' : 'transparent',
+                  fontWeight: active ? 600 : 500,
+                  fontSize: 14,
+                  textDecoration: 'none',
+                  transition: 'all 0.15s',
+                }}
               >
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 font-semibold">
-                  MT
-                </div>
-                <div className="flex-1 text-left">
-                  <div className="text-sm font-medium text-white">Marcus Thompson</div>
-                  <div className="text-xs text-slate-400">Owner</div>
-                </div>
-                <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {userMenuOpen && (
-                <div className="absolute bottom-full left-0 right-0 mb-2 p-2 rounded-xl bg-slate-800 border border-slate-700">
-                  <Link href="/dashboard/settings" className="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">
-                    <Settings className="w-4 h-4" />
-                    Settings
-                  </Link>
-                  <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors">
-                    <LogOut className="w-4 h-4" />
-                    Sign out
-                  </button>
-                </div>
-              )}
+                <item.icon size={18} />
+                {item.name}
+              </Link>
+            )
+          })}
+        </nav>
+
+        {/* Bottom */}
+        <div style={{ padding: '12px 8px', borderTop: '1px solid #f0f0f0' }}>
+          <Link
+            href="/dashboard/settings"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '10px 16px',
+              borderRadius: 6,
+              color: pathname === '/dashboard/settings' ? '#1677ff' : '#595959',
+              fontWeight: 500,
+              fontSize: 14,
+              textDecoration: 'none',
+            }}
+          >
+            <Settings size={18} />
+            Settings
+          </Link>
+          <div style={{ padding: '10px 16px', borderRadius: 6, display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+            <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1677ff', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: 12 }}>MT</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 600, fontSize: 13, color: '#262626' }}>Marcus T.</div>
+              <div style={{ fontSize: 11, color: '#8c8c8c' }}>Owner</div>
             </div>
           </div>
         </div>
       </aside>
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      {/* Main */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-slate-950/80 backdrop-blur-lg border-b border-slate-800">
-          <div className="flex items-center justify-between px-6 py-4">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 rounded-lg hover:bg-slate-800 transition-colors"
-              >
-                <Menu className="w-6 h-6 text-slate-400" />
-              </button>
-              
-              <div className="hidden sm:flex items-center gap-3 bg-slate-800/50 rounded-xl px-4 py-2 w-80">
-                <Search className="w-5 h-5 text-slate-500" />
-                <input
-                  type="text"
-                  placeholder="Search leads, quotes, customers..."
-                  className="bg-transparent text-white placeholder-slate-500 focus:outline-none flex-1"
-                />
-              </div>
+        <header style={{ background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1 }}>
+            <div style={{ position: 'relative', maxWidth: 320 }}>
+              <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#bfbfbf' }} />
+              <input
+                type="text"
+                placeholder="Search leads, quotes, customers..."
+                style={{ width: '100%', padding: '8px 12px 8px 36px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none', background: '#fff' }}
+              />
             </div>
-            
-            <div className="flex items-center gap-3">
-              <button className="relative p-2 rounded-xl hover:bg-slate-800 transition-colors">
-                <Bell className="w-6 h-6 text-slate-400" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-emerald-500 rounded-full" />
-              </button>
-              
-              <button className="p-2 rounded-xl hover:bg-slate-800 transition-colors">
-                <Settings className="w-6 h-6 text-slate-400" />
-              </button>
-            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <button style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+              <Bell size={20} style={{ color: '#595959' }} />
+              <span style={{ position: 'absolute', top: 2, right: 2, width: 8, height: 8, borderRadius: '50%', background: '#1677ff' }} />
+            </button>
           </div>
         </header>
 
         {/* Page content */}
-        <main className="flex-1 p-6">
+        <main style={{ flex: 1, padding: 24 }}>
           {children}
         </main>
       </div>
