@@ -2,54 +2,61 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import {
-  LayoutDashboard,
-  Users,
-  FileText,
-  Calendar,
-  MessageSquare,
-  CreditCard,
-  BarChart3,
-  Settings,
-  LogOut,
-  Search,
-  Bell,
-  ChevronDown,
-} from 'lucide-react'
 
 const navItems = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Leads', href: '/dashboard/leads', icon: Users },
-  { name: 'Quotes', href: '/dashboard/quotes', icon: FileText },
-  { name: 'Appointments', href: '/dashboard/appointments', icon: Calendar },
-  { name: 'Customers', href: '/dashboard/customers', icon: Users },
-  { name: 'Payments', href: '/dashboard/payments', icon: CreditCard },
-  { name: 'Social', href: '/dashboard/social', icon: MessageSquare },
-  { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
+  { name: 'Dashboard', href: '/dashboard', icon: GridIcon },
+  { name: 'Leads', href: '/dashboard/leads', icon: UsersIcon },
+  { name: 'Quotes', href: '/dashboard/quotes', icon: FileTextIcon },
+  { name: 'Appointments', href: '/dashboard/appointments', icon: CalendarIcon },
+  { name: 'Customers', href: '/dashboard/customers', icon: UserCircleIcon },
+  { name: 'Payments', href: '/dashboard/payments', icon: CreditCardIcon },
+  { name: 'Social', href: '/dashboard/social', icon: ShareIcon },
+  { name: 'Analytics', href: '/dashboard/analytics', icon: ChartIcon },
 ]
+
+function GridIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> }
+function UsersIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> }
+function FileTextIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> }
+function CalendarIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> }
+function UserCircleIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> }
+function CreditCardIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> }
+function ShareIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> }
+function ChartIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> }
+function SettingsIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> }
+function BellIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> }
+function SearchIcon() { return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> }
+function PlusIcon() { return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> }
+function ChevronIcon() { return <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg> }
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f5f5f5' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#f0f2f5' }}>
       {/* Sidebar */}
-      <aside style={{ width: 240, background: '#fff', borderRight: '1px solid #f0f0f0', display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh' }}>
+      <aside style={{ width: 252, background: 'linear-gradient(180deg, #1a1f36 0%, #141929 100%)', display: 'flex', flexDirection: 'column', position: 'fixed', top: 0, left: 0, height: '100vh', zIndex: 50, overflowY: 'auto' }}>
         {/* Logo */}
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f0f0f0' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 32, height: 32, borderRadius: 6, background: '#1677ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ color: '#fff', fontWeight: 700, fontSize: 14 }}>B</span>
+        <div style={{ padding: '24px 20px 20px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg, #1677ff 0%, #4096ff 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 14px rgba(22,119,255,0.4)' }}>
+              <span style={{ color: '#fff', fontWeight: 800, fontSize: 16 }}>B</span>
             </div>
             <div>
-              <span style={{ fontWeight: 700, fontSize: 15, color: '#262626' }}>BrandBase</span>
-              <div style={{ fontSize: 11, color: '#8c8c8c' }}>Bayou Roofing</div>
+              <span style={{ fontWeight: 700, fontSize: 16, color: '#fff' }}>BrandBase</span>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 1 }}>Bayou Roofing</div>
             </div>
           </div>
         </div>
 
+        {/* Workspace badge */}
+        <div style={{ margin: '16px 12px', padding: '10px 12px', background: 'rgba(22,119,255,0.15)', borderRadius: 8, border: '1px solid rgba(22,119,255,0.2)' }}>
+          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 4 }}>Workspace</div>
+          <div style={{ fontSize: 13, color: '#fff', fontWeight: 600 }}>Bayou Roofing LLC</div>
+        </div>
+
         {/* Nav */}
-        <nav style={{ flex: 1, padding: '12px 8px', overflowY: 'auto' }}>
+        <nav style={{ flex: 1, padding: '8px 12px' }}>
+          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.8px', padding: '8px 8px 4px', fontWeight: 600 }}>Main Menu</div>
           {navItems.map((item) => {
             const active = pathname === item.href
             return (
@@ -60,77 +67,90 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   display: 'flex',
                   alignItems: 'center',
                   gap: 10,
-                  padding: '10px 16px',
-                  borderRadius: 6,
+                  padding: '10px 12px',
+                  borderRadius: 8,
                   marginBottom: 2,
-                  color: active ? '#1677ff' : '#595959',
-                  background: active ? '#e6f4ff' : 'transparent',
+                  color: active ? '#fff' : 'rgba(255,255,255,0.55)',
+                  background: active ? 'linear-gradient(135deg, rgba(22,119,255,0.5) 0%, rgba(22,119,255,0.25) 100%)' : 'transparent',
                   fontWeight: active ? 600 : 500,
                   fontSize: 14,
                   textDecoration: 'none',
                   transition: 'all 0.15s',
+                  border: active ? '1px solid rgba(22,119,255,0.3)' : '1px solid transparent',
                 }}
               >
-                <item.icon size={18} />
+                <item.icon />
                 {item.name}
+                {active && <div style={{ marginLeft: 'auto', width: 6, height: 6, borderRadius: '50%', background: '#1677ff' }} />}
               </Link>
             )
           })}
-        </nav>
 
-        {/* Bottom */}
-        <div style={{ padding: '12px 8px', borderTop: '1px solid #f0f0f0' }}>
+          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.8px', padding: '8px 8px 4px', marginTop: 8, fontWeight: 600 }}>Account</div>
           <Link
             href="/dashboard/settings"
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: 10,
-              padding: '10px 16px',
-              borderRadius: 6,
-              color: pathname === '/dashboard/settings' ? '#1677ff' : '#595959',
+              padding: '10px 12px',
+              borderRadius: 8,
+              marginBottom: 2,
+              color: pathname === '/dashboard/settings' ? '#fff' : 'rgba(255,255,255,0.55)',
+              background: pathname === '/dashboard/settings' ? 'rgba(22,119,255,0.2)' : 'transparent',
               fontWeight: 500,
               fontSize: 14,
               textDecoration: 'none',
+              transition: 'all 0.15s',
             }}
           >
-            <Settings size={18} />
+            <SettingsIcon />
             Settings
           </Link>
-          <div style={{ padding: '10px 16px', borderRadius: 6, display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-            <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#1677ff', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: 12 }}>MT</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 600, fontSize: 13, color: '#262626' }}>Marcus T.</div>
-              <div style={{ fontSize: 11, color: '#8c8c8c' }}>Owner</div>
+        </nav>
+
+        {/* User */}
+        <div style={{ padding: '16px 12px', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+          <div style={{ padding: '10px 12px', borderRadius: 8, display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+            <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg, #1677ff 0%, #52c41a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 12, color: '#fff', flexShrink: 0 }}>
+              MT
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 600, fontSize: 13, color: '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Marcus Thompson</div>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Owner</div>
             </div>
           </div>
         </div>
       </aside>
 
-      {/* Main */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      {/* Main content */}
+      <div style={{ flex: 1, marginLeft: 252, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         {/* Top bar */}
-        <header style={{ background: '#fff', borderBottom: '1px solid #f0f0f0', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 10 }}>
+        <header style={{ background: '#fff', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 28px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 40 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1 }}>
-            <div style={{ position: 'relative', maxWidth: 320 }}>
-              <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#bfbfbf' }} />
+            <div style={{ position: 'relative', maxWidth: 360 }}>
+              <SearchIcon />
               <input
                 type="text"
                 placeholder="Search leads, quotes, customers..."
-                style={{ width: '100%', padding: '8px 12px 8px 36px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none', background: '#fff' }}
+                style={{ width: '100%', padding: '9px 12px 9px 36px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', transition: 'border-color 0.2s', background: '#fafafa' }}
               />
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <button style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
-              <Bell size={20} style={{ color: '#595959' }} />
-              <span style={{ position: 'absolute', top: 2, right: 2, width: 8, height: 8, borderRadius: '50%', background: '#1677ff' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Link href="/dashboard/leads" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 16px', background: '#1677ff', color: '#fff', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none', boxShadow: '0 2px 8px rgba(22,119,255,0.25)' }}>
+              <PlusIcon /> New Lead
+            </Link>
+            <button style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: 8, borderRadius: 8, transition: 'background 0.15s' }}>
+              <BellIcon />
+              <span style={{ position: 'absolute', top: 6, right: 6, width: 8, height: 8, borderRadius: '50%', background: '#ff4d4f', border: '2px solid #fff' }} />
             </button>
+            <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg, #1677ff 0%, #52c41a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 12, color: '#fff', cursor: 'pointer' }}>MT</div>
           </div>
         </header>
 
         {/* Page content */}
-        <main style={{ flex: 1, padding: 24 }}>
+        <main style={{ flex: 1, padding: '28px' }}>
           {children}
         </main>
       </div>

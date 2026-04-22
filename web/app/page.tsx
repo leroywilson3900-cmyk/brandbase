@@ -89,7 +89,7 @@ export default function LandingPage() {
           {/* Hero image */}
           <div style={{ position: 'relative' }}>
             <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(0,0,0,0.06)' }}>
-              <img src="/brandbase-screenshot.png" alt="BrandBase Dashboard" style={{ width: '100%', height: 'auto', display: 'block' }} onError={(e) => { e.currentTarget.style.display = 'none' }} />
+              <img src="/product-ui.png" alt="BrandBase Dashboard" style={{ width: '100%', height: 'auto', display: 'block' }} onError={(e) => { e.currentTarget.src = '/brandbase-screenshot.png' }} />
             </div>
             {/* Floating stat cards */}
             <div style={{ position: 'absolute', bottom: -16, left: -20, background: '#fff', borderRadius: 12, padding: '14px 20px', boxShadow: '0 8px 24px rgba(0,0,0,0.1)', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', gap: 12 }}>
