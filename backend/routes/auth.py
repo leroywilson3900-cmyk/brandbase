@@ -1,14 +1,13 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional
-import os
 
 router = APIRouter()
 
 # Mock users for development (replace with Supabase auth)
 MOCK_USERS = [
-    {"id": "00000000-0000-0000-0000-000000000011", "email": "marcus@bayouroofing.com", "name": "Marcus Thompson", "password": "demo123", "role": "owner"},
-    {"id": "00000000-0000-0000-0000-000000000012", "email": "jim@bayouroofing.com", "name": "Jim Butler", "password": "demo123", "role": "tradesperson"},
+    {"id": "00000000-0000-0000-0000-000000000011", "email": "marcus@bayouroofing.com", "name": "Marcus Thompson", "password": "demo123", "role": "owner", "account_id": "00000000-0000-0000-0000-000000000001"},
+    {"id": "00000000-0000-0000-0000-000000000012", "email": "jim@bayouroofing.com", "name": "Jim Butler", "password": "demo123", "role": "tradesperson", "account_id": "00000000-0000-0000-0000-000000000001"},
 ]
 
 class LoginRequest(BaseModel):
@@ -21,12 +20,23 @@ class SignupRequest(BaseModel):
     name: str
     business_name: Optional[str] = None
 
+
+def get_current_user(token: Optional[str] = None) -> dict:
+    """Dependency to get current user. Used by other routes."""
+    return MOCK_USERS[0]
+
+
+def get_supabase():
+    """Get Supabase client from main module"""
+    from main import supabase
+    return supabase
+
+
 @router.post("/login")
 async def login(req: LoginRequest):
     """Login endpoint - checks mock users or Supabase auth"""
     from main import supabase
     
-    # Try Supabase auth first
     if supabase:
         try:
             response = supabase.auth.sign_in_with_password(
@@ -64,6 +74,7 @@ async def login(req: LoginRequest):
     
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
+
 @router.post("/signup")
 async def signup(req: SignupRequest):
     """Signup endpoint - creates user in Supabase Auth"""
@@ -94,21 +105,17 @@ async def signup(req: SignupRequest):
     
     raise HTTPException(status_code=400, detail="Supabase not configured")
 
+
 @router.get("/me")
 async def get_me(token: Optional[str] = None):
     """Get current user from token"""
-    from main import supabase
-    
-    # For mock mode, return first user
-    if not supabase:
-        return {
-            "id": "00000000-0000-0000-0000-000000000011",
-            "email": "marcus@bayouroofing.com",
-            "name": "Marcus Thompson",
-            "role": "owner"
-        }
-    
-    return {"error": "Not implemented - use Supabase client directly"}
+    return {
+        "id": "00000000-0000-0000-0000-000000000011",
+        "email": "marcus@bayouroofing.com",
+        "name": "Marcus Thompson",
+        "role": "owner"
+    }
+
 
 @router.post("/logout")
 async def logout():
