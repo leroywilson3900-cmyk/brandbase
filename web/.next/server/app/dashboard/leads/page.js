@@ -23,4 +23,4 @@
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
- */let a=(0,t(9224).Z)("X",[["path",{d:"M18 6 6 18",key:"1bl5f8"}],["path",{d:"m6 6 12 12",key:"d8bk6v"}]])},5627:(e,s,t)=>{"use strict";t.r(s),t.d(s,{$$typeof:()=>i,__esModule:()=>l,default:()=>n});let a=(0,t(6843).createProxy)(String.raw`/home/ubuntu/.openclaw/workspace/brandbase/web/app/dashboard/leads/page.tsx`),{__esModule:l,$$typeof:i}=a,n=a.default}};var s=require("../../../webpack-runtime.js");s.C(e);var t=e=>s(s.s=e),a=s.X(0,[22,476,189],()=>t(907));module.exports=a})();
+ */let a=(0,t(9224).Z)("X",[["path",{d:"M18 6 6 18",key:"1bl5f8"}],["path",{d:"m6 6 12 12",key:"d8bk6v"}]])},5627:(e,s,t)=>{"use strict";t.r(s),t.d(s,{$$typeof:()=>i,__esModule:()=>l,default:()=>n});let a=(0,t(6843).createProxy)(String.raw`/home/ubuntu/.openclaw/workspace/brandbase/web/app/dashboard/leads/page.tsx`),{__esModule:l,$$typeof:i}=a,n=a.default}};var s=require("../../../webpack-runtime.js");s.C(e);var t=e=>s(s.s=e),a=s.X(0,[22,506,189],()=>t(907));module.exports=a})();
