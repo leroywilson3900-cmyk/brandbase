@@ -6,29 +6,23 @@ import { useRouter } from 'next/navigation'
 
 export default function SignupPage() {
   const router = useRouter()
-  const [form, setForm] = useState({ name: '', business: '', email: '', password: '' })
   const [loading, setLoading] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
-    // ALWAYS use demo mode - skip API for faster demo experience
-    // API will be used once backend is properly deployed
+    // Pure demo mode - no API call, instant redirect
     setTimeout(() => {
       localStorage.setItem('brandbase_token', 'demo_token_' + Date.now())
       localStorage.setItem('brandbase_user', JSON.stringify({ 
-        email: form.email || 'demo@brandbase.app',
-        name: form.name || 'Marcus Thompson',
-        business_name: form.business || 'Bayou Roofing LLC',
+        email: 'demo@brandbase.app',
+        name: 'Marcus Thompson',
+        business_name: 'Bayou Roofing LLC',
         plan: 'pro'
       }))
       router.push('/dashboard')
-    }, 800)
+    }, 400)
   }
 
   return (
@@ -46,8 +40,8 @@ export default function SignupPage() {
         </div>
 
         {/* Demo Banner */}
-        <div style={{ background: '#e6f4ff', border: '1px solid #91caff', borderRadius: 10, padding: '10px 14px', marginBottom: 20, fontSize: 13, color: '#1677ff' }}>
-          Demo mode: Enter any info to explore BrandBase instantly
+        <div style={{ background: '#f6ffed', border: '1px solid #b7eb8f', borderRadius: 10, padding: '10px 14px', marginBottom: 20, fontSize: 13, color: '#52c41a' }}>
+          ✅ Demo mode — click Create Account to explore instantly
         </div>
 
         {/* Card */}
@@ -60,9 +54,8 @@ export default function SignupPage() {
                   name="name"
                   type="text"
                   placeholder="Marcus Thompson"
-                  value={form.name}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', transition: 'border-color 0.2s', background: '#fafafa' }}
+                  defaultValue="Marcus Thompson"
+                  style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', background: '#fafafa' }}
                   required
                 />
               </div>
@@ -72,9 +65,8 @@ export default function SignupPage() {
                   name="business"
                   type="text"
                   placeholder="Bayou Roofing LLC"
-                  value={form.business}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', transition: 'border-color 0.2s', background: '#fafafa' }}
+                  defaultValue="Bayou Roofing LLC"
+                  style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', background: '#fafafa' }}
                   required
                 />
               </div>
@@ -84,9 +76,8 @@ export default function SignupPage() {
                   name="email"
                   type="email"
                   placeholder="marcus@bayouroofing.com"
-                  value={form.email}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', transition: 'border-color 0.2s', background: '#fafafa' }}
+                  defaultValue="marcus@bayouroofing.com"
+                  style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', background: '#fafafa' }}
                   required
                 />
               </div>
@@ -96,9 +87,8 @@ export default function SignupPage() {
                   name="password"
                   type="password"
                   placeholder="Create password (8+ characters)"
-                  value={form.password}
-                  onChange={handleChange}
-                  style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', transition: 'border-color 0.2s', background: '#fafafa' }}
+                  defaultValue="demo1234"
+                  style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', background: '#fafafa' }}
                   required
                   minLength={6}
                 />
@@ -111,15 +101,14 @@ export default function SignupPage() {
               style={{
                 width: '100%',
                 padding: '12px',
-                background: loading ? '#bae0ff' : '#1677ff',
+                background: '#1677ff',
                 color: '#fff',
                 border: 'none',
                 borderRadius: 8,
                 fontSize: 15,
                 fontWeight: 600,
-                cursor: loading ? 'not-allowed' : 'pointer',
-                transition: 'background 0.2s',
-                boxShadow: loading ? 'none' : '0 4px 12px rgba(22,119,255,0.25)',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(22,119,255,0.25)',
               }}
             >
               {loading ? 'Creating account...' : 'Create free account'}

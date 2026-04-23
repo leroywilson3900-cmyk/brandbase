@@ -8,26 +8,21 @@ export default function LoginPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     
-    const form = e.target as HTMLFormElement
-    const email = (form.elements.namedItem('email') as HTMLInputElement).value
-    const password = (form.elements.namedItem('password') as HTMLInputElement).value
-    
-    // ALWAYS use demo mode - skip API for faster demo experience
-    // API will be used once backend is properly deployed
+    // Pure demo mode - no API call at all, instant redirect
     setTimeout(() => {
       localStorage.setItem('brandbase_token', 'demo_token_' + Date.now())
       localStorage.setItem('brandbase_user', JSON.stringify({ 
-        email: email || 'demo@brandbase.app', 
+        email: 'demo@brandbase.app', 
         name: 'Marcus Thompson', 
         business_name: 'Bayou Roofing LLC',
         plan: 'pro'
       }))
       router.push('/dashboard')
-    }, 600)
+    }, 400)
   }
 
   return (
@@ -45,8 +40,8 @@ export default function LoginPage() {
         </div>
 
         {/* Demo Banner */}
-        <div style={{ background: '#e6f4ff', border: '1px solid #91caff', borderRadius: 8, padding: '10px 14px', marginBottom: 20, fontSize: 13, color: '#1677ff' }}>
-          Demo mode: Enter any email/password to explore instantly
+        <div style={{ background: '#f6ffed', border: '1px solid #b7eb8f', borderRadius: 8, padding: '10px 14px', marginBottom: 20, fontSize: 13, color: '#52c41a' }}>
+          ✅ Demo mode — click Sign In to explore instantly
         </div>
 
         {/* Card */}
@@ -59,7 +54,7 @@ export default function LoginPage() {
                 type="email"
                 placeholder="marcus@bayouroofing.com"
                 defaultValue="marcus@bayouroofing.com"
-                style={{ width: '100%', padding: '10px 12px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none', transition: 'border-color 0.2s' }}
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none' }}
                 required
               />
             </div>
@@ -74,7 +69,7 @@ export default function LoginPage() {
                 type="password"
                 placeholder="••••••••"
                 defaultValue="demo123"
-                style={{ width: '100%', padding: '10px 12px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none', transition: 'border-color 0.2s' }}
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none' }}
                 required
               />
             </div>
@@ -85,17 +80,16 @@ export default function LoginPage() {
               style={{
                 width: '100%',
                 padding: '10px',
-                background: loading ? '#bae0ff' : '#1677ff',
+                background: '#1677ff',
                 color: '#fff',
                 border: 'none',
                 borderRadius: 6,
                 fontSize: 15,
                 fontWeight: 600,
-                cursor: loading ? 'not-allowed' : 'pointer',
-                transition: 'background 0.2s',
+                cursor: 'pointer',
               }}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Loading...' : 'Sign In'}
             </button>
           </form>
 
