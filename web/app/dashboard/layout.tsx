@@ -25,8 +25,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     setIsDemo(token && token.startsWith('demo_'))
   }, [])
 
+  // Close sidebar on route change
+  useEffect(() => {
+    setSidebarOpen(false)
+  }, [pathname])
+
   return (
-    <div style={{ minHeight: '100vh', background: '#0f172a' }}>
+    <div style={{ minHeight: '100vh', background: '#0f172a', color: '#f8fafc' }}>
       {/* Mobile Top Bar */}
       <header style={{ 
         display: 'flex', 
@@ -37,14 +42,27 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         borderBottom: '1px solid rgba(255,255,255,0.08)',
         position: 'sticky',
         top: 0,
-        zIndex: 60
+        zIndex: 60,
+        gap: 12
       }}>
-        {/* Hamburger */}
+        {/* Hamburger Button */}
         <button 
-          onClick={() => setSidebarOpen(true)}
-          style={{ background: 'none', border: 'none', fontSize: 24, cursor: 'pointer', padding: 8 }}
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          style={{ 
+            background: 'none', 
+            border: 'none', 
+            fontSize: 22, 
+            cursor: 'pointer', 
+            padding: 8,
+            color: '#f8fafc',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minWidth: 44,
+            minHeight: 44
+          }}
         >
-          <span style={{ color: '#f8fafc' }}>☰</span>
+          {sidebarOpen ? '✕' : '☰'}
         </button>
         
         {/* Logo */}
@@ -56,9 +74,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
         
         {/* Bell */}
-        <button style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', padding: 8, position: 'relative' }}>
-          <span style={{ color: '#94a3b8' }}>🔔</span>
-          <span style={{ position: 'absolute', top: 6, right: 6, width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
+        <button style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', padding: 8, position: 'relative', color: '#94a3b8' }}>
+          🔔
+          <span style={{ position: 'absolute', top: 8, right: 8, width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }} />
         </button>
       </header>
 
@@ -66,7 +84,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {isDemo && (
         <div style={{ background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)', padding: '8px 16px', textAlign: 'center' }}>
           <span style={{ fontSize: 12, color: '#fff', fontWeight: 600 }}>
-            🎉 Demo Mode — You&apos;re exploring BrandBase!
+            🎉 Demo Mode — You're exploring BrandBase!
           </span>
         </div>
       )}
@@ -83,8 +101,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {/* Sidebar */}
           <aside style={{ 
             position: 'relative', 
-            width: '75%', 
-            maxWidth: 280,
+            width: '80%', 
+            maxWidth: 300,
             background: '#1e293b', 
             height: '100vh',
             overflowY: 'auto',
@@ -103,7 +121,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </div>
               <button 
                 onClick={() => setSidebarOpen(false)}
-                style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#94a3b8', padding: 4 }}
+                style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: '#94a3b8', padding: 4 }}
               >
                 ✕
               </button>
@@ -122,7 +140,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       display: 'flex',
                       alignItems: 'center',
                       gap: 12,
-                      padding: '12px 16px',
+                      padding: '14px 16px',
                       borderRadius: 10,
                       marginBottom: 4,
                       color: active ? '#10b981' : '#94a3b8',
@@ -130,54 +148,44 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                       fontWeight: active ? 600 : 500,
                       fontSize: 15,
                       textDecoration: 'none',
+                      minHeight: 48
                     }}
                   >
-                    <span style={{ fontSize: 18 }}>{item.icon}</span>
+                    <span style={{ fontSize: 20 }}>{item.icon}</span>
                     {item.name}
                   </Link>
                 )
               })}
             </nav>
             
-            {/* User at bottom */}
+            {/* Settings at bottom */}
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '16px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 12, color: '#fff' }}>
-                  MT
-                </div>
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: 13, color: '#f8fafc' }}>Marcus Thompson</div>
-                  <div style={{ fontSize: 11, color: '#64748b' }}>Owner</div>
-                </div>
-              </div>
+              <Link
+                href="/dashboard/settings"
+                onClick={() => setSidebarOpen(false)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '14px 16px',
+                  borderRadius: 10,
+                  color: '#94a3b8',
+                  fontWeight: 500,
+                  fontSize: 15,
+                  textDecoration: 'none',
+                  minHeight: 48
+                }}
+              >
+                <span style={{ fontSize: 20 }}>⚙️</span>
+                Settings
+              </Link>
             </div>
           </aside>
         </div>
       )}
 
-      {/* Desktop Sidebar (hidden on mobile) */}
-      <aside style={{ 
-        display: 'none',
-        '@media (minWidth: 1024px)': { display: 'flex' }
-      }} className="desktop-sidebar">
-        <style>{`
-          @media (min-width: 1024px) {
-            .desktop-sidebar {
-              display: flex !important;
-              position: fixed;
-              top: 0;
-              left: 0;
-              height: 100vh;
-              width: 240px;
-              background: linear-gradient(180deg, #1a1f36 0%, #141929 100%);
-              flex-direction: column;
-            }
-          }
-        `}</style>
-      </aside>
-
-      {/* Main Content */}
-      <main style={{ padding: '16px', maxWidth: 1400, margin: '0 auto' }}>
+      {/* Page Content */}
+      <main style={{ padding: 16, maxWidth: 1400, margin: '0 auto' }}>
         {children}
       </main>
     </div>
