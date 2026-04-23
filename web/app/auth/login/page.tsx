@@ -2,14 +2,32 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setTimeout(() => setLoading(false), 1500)
+    
+    const form = e.target as HTMLFormElement
+    const email = (form.elements.namedItem('email') as HTMLInputElement).value
+    const password = (form.elements.namedItem('password') as HTMLInputElement).value
+    
+    // ALWAYS use demo mode - skip API for faster demo experience
+    // API will be used once backend is properly deployed
+    setTimeout(() => {
+      localStorage.setItem('brandbase_token', 'demo_token_' + Date.now())
+      localStorage.setItem('brandbase_user', JSON.stringify({ 
+        email: email || 'demo@brandbase.app', 
+        name: 'Marcus Thompson', 
+        business_name: 'Bayou Roofing LLC',
+        plan: 'pro'
+      }))
+      router.push('/dashboard')
+    }, 600)
   }
 
   return (
@@ -26,14 +44,21 @@ export default function LoginPage() {
           <p style={{ fontSize: 14, color: '#8c8c8c' }}>Sign in to your account</p>
         </div>
 
+        {/* Demo Banner */}
+        <div style={{ background: '#e6f4ff', border: '1px solid #91caff', borderRadius: 8, padding: '10px 14px', marginBottom: 20, fontSize: 13, color: '#1677ff' }}>
+          Demo mode: Enter any email/password to explore instantly
+        </div>
+
         {/* Card */}
         <div style={{ background: '#fff', borderRadius: 8, padding: 32, boxShadow: '0 1px 2px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.06)', border: '1px solid #f0f0f0' }}>
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: 20 }}>
               <label style={{ display: 'block', fontSize: 14, fontWeight: 600, color: '#262626', marginBottom: 6 }}>Email</label>
               <input
+                name="email"
                 type="email"
                 placeholder="marcus@bayouroofing.com"
+                defaultValue="marcus@bayouroofing.com"
                 style={{ width: '100%', padding: '10px 12px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none', transition: 'border-color 0.2s' }}
                 required
               />
@@ -45,8 +70,10 @@ export default function LoginPage() {
                 <a href="#" style={{ fontSize: 13, color: '#1677ff', textDecoration: 'none' }}>Forgot password?</a>
               </div>
               <input
+                name="password"
                 type="password"
                 placeholder="••••••••"
+                defaultValue="demo123"
                 style={{ width: '100%', padding: '10px 12px', border: '1px solid #d9d9d9', borderRadius: 6, fontSize: 14, outline: 'none', transition: 'border-color 0.2s' }}
                 required
               />
@@ -73,16 +100,12 @@ export default function LoginPage() {
           </form>
 
           <div style={{ marginTop: 24, textAlign: 'center', fontSize: 14, color: '#8c8c8c' }}>
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href="/auth/signup" style={{ color: '#1677ff', fontWeight: 600, textDecoration: 'none' }}>
               Sign up
             </Link>
           </div>
         </div>
-
-        <p style={{ textAlign: 'center', fontSize: 13, color: '#bfbfbf', marginTop: 24 }}>
-          © 2026 BrandBase. All rights reserved.
-        </p>
       </div>
     </div>
   )

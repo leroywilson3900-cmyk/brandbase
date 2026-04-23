@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const features = [
   { title: 'Lead Management', desc: 'Track every lead from first call to signed contract with a visual pipeline.', icon: '📋', color: '#1677ff' },
@@ -29,9 +29,182 @@ const testimonials = [
 ]
 
 export default function LandingPage() {
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set())
+  const observerRef = useRef<IntersectionObserver | null>(null)
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections(prev => new Set([...prev, entry.target.id]))
+          }
+        })
+      },
+      { threshold: 0.15 }
+    )
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      observerRef.current?.observe(el)
+    })
+
+    return () => observerRef.current?.disconnect()
+  }, [])
+
   return (
     <div style={{ minHeight: '100vh', background: '#fff', fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');`}</style>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        /* Animations */
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInLeft {
+          from { opacity: 0; transform: translateX(-30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+          from { opacity: 0; transform: translateX(30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.6; }
+        }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.9); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideDown {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes stepBounce {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.08); }
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        @keyframes rotateIn {
+          from { opacity: 0; transform: rotate(-5deg) scale(0.95); }
+          to { opacity: 1; transform: rotate(0) scale(1); }
+        }
+
+        /* Scroll-triggered animations */
+        .animate-on-scroll {
+          opacity: 0;
+          transform: translateY(25px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .animate-on-scroll.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Feature card hover */
+        .feature-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 16px 40px rgba(22,119,255,0.12);
+          border-color: #91caff;
+        }
+        .feature-card {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Testimonial hover */
+        .testimonial-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+        }
+        .testimonial-card {
+          transition: all 0.3s ease;
+        }
+
+        /* Step number animation */
+        .step-number:hover {
+          animation: stepBounce 0.5s ease;
+        }
+        .step-number {
+          transition: transform 0.3s ease;
+        }
+
+        /* CTA button hover */
+        .cta-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 32px rgba(255,255,255,0.25);
+        }
+        .cta-button {
+          transition: all 0.3s ease;
+        }
+
+        /* Plan card hover */
+        .plan-card:hover {
+          transform: translateY(-4px);
+        }
+        .plan-card {
+          transition: all 0.3s ease;
+        }
+
+        /* Nav links */
+        nav a:hover {
+          color: #1677ff !important;
+        }
+        nav a {
+          transition: color 0.2s ease;
+        }
+
+        /* Floating card animation */
+        .floating-stat {
+          animation: float 3s ease-in-out infinite;
+        }
+        .floating-stat-delayed {
+          animation: float 3s ease-in-out infinite 1.5s;
+        }
+
+        /* Scroll smooth */
+        html { scroll-behavior: smooth; }
+
+        /* Stat counter animation */
+        .stat-up {
+          animation: fadeInRight 0.6s ease 0.8s both;
+        }
+        .stat-down {
+          animation: fadeInLeft 0.6s ease 1s both;
+        }
+
+        /* Hero elements */
+        .hero-badge { animation: fadeInUp 0.6s ease 0.2s both; }
+        .hero-h1 { animation: fadeInUp 0.7s ease 0.35s both; }
+        .hero-p { animation: fadeInUp 0.7s ease 0.5s both; }
+        .hero-buttons { animation: fadeInUp 0.7s ease 0.65s both; }
+        .hero-stats { animation: fadeInUp 0.7s ease 0.8s both; }
+        .hero-image { animation: rotateIn 0.8s ease 0.4s both; }
+
+        /* Social proof fade in */
+        .social-proof { animation: fadeInUp 0.6s ease 0.2s both; }
+
+        /* Section headers */
+        .section-header {
+          animation: fadeInUp 0.6s ease both;
+        }
+
+        /* Pricing shimmer for popular */
+        .popular-shimmer {
+          background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+          background-size: 200% 100%;
+          animation: shimmer 3s infinite;
+          border-radius: 4px;
+          padding: 2px 8px;
+        }
+      `}</style>
 
       {/* Nav */}
       <header style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
@@ -54,7 +227,7 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero */}
+      {/* Hero }
       <section style={{ padding: '72px 40px 96px', background: 'linear-gradient(180deg, #f7f9ff 0%, #fff 60%)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.1fr', gap: 72, alignItems: 'center' }}>
           <div>
@@ -93,7 +266,7 @@ export default function LandingPage() {
               <img src="/product-ui.png" alt="BrandBase Dashboard" style={{ width: '100%', height: 'auto', display: 'block' }} onError={(e) => { e.currentTarget.src = '/brandbase-screenshot.png' }} />
             </div>
             {/* Floating stat cards */}
-            <div style={{ position: 'absolute', bottom: -16, left: -20, background: '#fff', borderRadius: 12, padding: '14px 20px', boxShadow: '0 8px 24px rgba(0,0,0,0.1)', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ position: 'absolute', bottom: -16, left: -20, background: '#fff', borderRadius: 12, padding: '14px 20px', boxShadow: '0 8px 24px rgba(0,0,0,0.1)', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', gap: 12 }} className="floating-stat">
               <div style={{ width: 40, height: 40, borderRadius: 10, background: '#e6f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <span style={{ fontSize: 18 }}>📈</span>
               </div>
@@ -102,7 +275,7 @@ export default function LandingPage() {
                 <div style={{ fontSize: 11, color: '#8c8c8c' }}>Revenue this month</div>
               </div>
             </div>
-            <div style={{ position: 'absolute', top: 24, right: -16, background: '#fff', borderRadius: 12, padding: '12px 16px', boxShadow: '0 8px 24px rgba(0,0,0,0.1)', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ position: 'absolute', top: 24, right: -16, background: '#fff', borderRadius: 12, padding: '12px 16px', boxShadow: '0 8px 24px rgba(0,0,0,0.1)', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', gap: 10 }} className="floating-stat-delayed">
               <div style={{ width: 32, height: 32, borderRadius: 8, background: '#f6ffed', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <span style={{ fontSize: 16 }}>✅</span>
               </div>
@@ -128,15 +301,15 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section id="features" style={{ padding: '88px 40px', background: '#fff' }}>
+      <section id="features-section" className={`animate-on-scroll ${visibleSections.has('features-section') ? 'visible' : ''}`} style={{ padding: '88px 40px', background: '#fff' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <h2 style={{ fontSize: 34, fontWeight: 700, color: '#1a1a1a', marginBottom: 12, letterSpacing: '-0.4px' }}>Everything you need to grow</h2>
             <p style={{ fontSize: 16, color: '#8c8c8c' }}>One subscription. Complete business toolkit.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
-            {features.map((f) => (
-              <div key={f.title} style={{ padding: 28, background: '#fff', border: '1px solid #f0f0f0', borderRadius: 12, transition: 'all 0.2s', cursor: 'pointer' }}>
+            {features.map((f, i) => (
+              <div key={f.title} className="feature-card animate-on-scroll" style={{ padding: 28, background: '#fff', border: '1px solid #f0f0f0', borderRadius: 12, cursor: 'pointer', animationDelay: `${i * 0.1}s' }}>
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: `${f.color}12`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, marginBottom: 16 }}>
                   {f.icon}
                 </div>
@@ -149,15 +322,15 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section style={{ padding: '80px 40px', background: '#f7f9ff' }}>
+      <section id="testimonials-section" className={`animate-on-scroll ${visibleSections.has('testimonials-section') ? 'visible' : ''}`} style={{ padding: '80px 40px', background: '#f7f9ff' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 style={{ fontSize: 34, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>Loved by service businesses</h2>
             <p style={{ fontSize: 16, color: '#8c8c8c' }}>Real results from real businesses</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
-            {testimonials.map((t) => (
-              <div key={t.name} style={{ background: '#fff', border: '1px solid #f0f0f0', borderRadius: 14, padding: 28 }}>
+            {testimonials.map((t, i) => (
+              <div key={t.name} className="testimonial-card animate-on-scroll" style={{ background: '#fff', border: '1px solid #f0f0f0', borderRadius: 14, padding: 28, animationDelay: `${i * 0.15}s' }}>
                 <div style={{ fontSize: 28, marginBottom: 16, color: '#1677ff' }}>"</div>
                 <p style={{ fontSize: 14, color: '#595959', lineHeight: 1.7, marginBottom: 20 }}>{t.quote}</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -174,7 +347,7 @@ export default function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section style={{ padding: '88px 40px', background: '#fff' }}>
+      <section id="how-it-works-section" className={`animate-on-scroll ${visibleSections.has('how-it-works-section') ? 'visible' : ''}`} style={{ padding: '88px 40px', background: '#fff' }}>
         <div style={{ maxWidth: 960, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <h2 style={{ fontSize: 34, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>Get started in minutes</h2>
@@ -187,7 +360,7 @@ export default function LandingPage() {
               { n: '3', title: 'Grow your business', desc: 'Leads pour in, quotes go out, payments come in. AI handles the busywork.' },
             ].map((step) => (
               <div key={step.n} style={{ textAlign: 'center' }}>
-                <div style={{ width: 60, height: 60, borderRadius: '50%', background: 'linear-gradient(135deg, #1677ff 0%, #4096ff 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: 22, fontWeight: 800, color: '#fff', boxShadow: '0 8px 24px rgba(22,119,255,0.3)' }}>
+                <div className="step-number" style={{ width: 60, height: 60, borderRadius: '50%', background: 'linear-gradient(135deg, #1677ff 0%, #4096ff 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: 22, fontWeight: 800, color: '#fff', boxShadow: '0 8px 24px rgba(22,119,255,0.3)', cursor: 'pointer' }}>
                   {step.n}
                 </div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: '#262626', marginBottom: 8 }}>{step.title}</h3>
@@ -199,15 +372,15 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" style={{ padding: '88px 40px', background: '#fafafa' }}>
+      <section id="pricing-section" className={`animate-on-scroll ${visibleSections.has('pricing-section') ? 'visible' : ''}`} style={{ padding: '88px 40px', background: '#fafafa' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <h2 style={{ fontSize: 34, fontWeight: 700, color: '#1a1a1a', marginBottom: 12 }}>Simple, transparent pricing</h2>
             <p style={{ fontSize: 16, color: '#8c8c8c' }}>Start free. Upgrade when you&apos;re ready.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, alignItems: 'start' }}>
-            {plans.map((plan) => (
-              <div key={plan.name} style={{ background: '#fff', border: plan.popular ? '2px solid #1677ff' : '1px solid #f0f0f0', borderRadius: 16, padding: 32, position: 'relative', boxShadow: plan.popular ? '0 12px 40px rgba(22,119,255,0.12)' : '0 2px 8px rgba(0,0,0,0.04)' }}>
+            {plans.map((plan, i) => (
+              <div key={plan.name} className="plan-card animate-on-scroll" style={{ background: '#fff', border: plan.popular ? '2px solid #1677ff' : '1px solid #f0f0f0', borderRadius: 16, padding: 32, position: 'relative', boxShadow: plan.popular ? '0 12px 40px rgba(22,119,255,0.12)' : '0 2px 8px rgba(0,0,0,0.04)', animationDelay: `${i * 0.1}s' }}>
                 {plan.popular && (
                   <div style={{ position: 'absolute', top: -13, left: '50%', transform: 'translateX(-50%)', background: 'linear-gradient(135deg, #1677ff 0%, #4096ff 100%)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '5px 14px', borderRadius: 20, whiteSpace: 'nowrap', boxShadow: '0 4px 12px rgba(22,119,255,0.3)' }}>
                     ★ Most Popular
@@ -242,7 +415,7 @@ export default function LandingPage() {
           <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.8)', marginBottom: 36, lineHeight: 1.7 }}>
             Join hundreds of service businesses using BrandBase to automate operations and win more jobs.
           </p>
-          <Link href="/auth/signup" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '16px 40px', background: '#fff', color: '#1677ff', borderRadius: 8, fontSize: 16, fontWeight: 700, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
+          <Link href="/auth/signup" className="cta-button" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '16px 40px', background: '#fff', color: '#1677ff', borderRadius: 8, fontSize: 16, fontWeight: 700, textDecoration: 'none', boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
             Get started free <span>→</span>
           </Link>
         </div>

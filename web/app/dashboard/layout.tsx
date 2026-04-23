@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: GridIcon },
@@ -32,6 +33,12 @@ function BrainIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fi
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const [isDemo, setIsDemo] = useState(false)
+  
+  useEffect(() => {
+    const token = localStorage.getItem('brandbase_token')
+    setIsDemo(token && token.startsWith('demo_'))
+  }, [])
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f0f2f5' }}>
@@ -127,6 +134,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main content */}
       <div style={{ flex: 1, marginLeft: 252, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        {/* Demo banner */}
+        {isDemo && (
+          <div style={{ background: 'linear-gradient(90deg, #1677ff 0%, #52c41a 100%)', padding: '8px 28px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <span style={{ fontSize: 12, color: '#fff', fontWeight: 600 }}>
+              🎉 Demo Mode — You&apos;re exploring BrandBase! Sign up to get started for real.
+            </span>
+            <Link href="/auth/signup" style={{ fontSize: 12, color: '#fff', textDecoration: 'underline', fontWeight: 600 }}>
+              Create account →
+            </Link>
+          </div>
+        )}
         {/* Top bar */}
         <header style={{ background: '#fff', borderBottom: '1px solid rgba(0,0,0,0.06)', padding: '0 28px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 40 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1 }}>

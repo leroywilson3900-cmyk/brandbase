@@ -8,7 +8,6 @@ export default function SignupPage() {
   const router = useRouter()
   const [form, setForm] = useState({ name: '', business: '', email: '', password: '' })
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -17,35 +16,19 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
 
-    try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://brandbase-walf.onrender.com'
-      const res = await fetch(`${apiUrl}/auth/signup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-          name: form.name,
-          business_name: form.business,
-        }),
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.detail || 'Failed to create account')
-        return
-      }
-
-      // Redirect to login on success
-      router.push('/auth/login?registered=true')
-    } catch (err) {
-      setError('Unable to connect to server. Please try again.')
-    } finally {
-      setLoading(false)
-    }
+    // ALWAYS use demo mode - skip API for faster demo experience
+    // API will be used once backend is properly deployed
+    setTimeout(() => {
+      localStorage.setItem('brandbase_token', 'demo_token_' + Date.now())
+      localStorage.setItem('brandbase_user', JSON.stringify({ 
+        email: form.email || 'demo@brandbase.app',
+        name: form.name || 'Marcus Thompson',
+        business_name: form.business || 'Bayou Roofing LLC',
+        plan: 'pro'
+      }))
+      router.push('/dashboard')
+    }, 800)
   }
 
   return (
@@ -60,6 +43,11 @@ export default function SignupPage() {
             <span style={{ fontWeight: 800, fontSize: 22, color: '#1a1a1a', letterSpacing: '-0.4px' }}>BrandBase</span>
           </div>
           <p style={{ fontSize: 14, color: '#8c8c8c' }}>Create your free account — 14-day trial, no card required</p>
+        </div>
+
+        {/* Demo Banner */}
+        <div style={{ background: '#e6f4ff', border: '1px solid #91caff', borderRadius: 10, padding: '10px 14px', marginBottom: 20, fontSize: 13, color: '#1677ff' }}>
+          Demo mode: Enter any info to explore BrandBase instantly
         </div>
 
         {/* Card */}
@@ -107,7 +95,7 @@ export default function SignupPage() {
                 <input
                   name="password"
                   type="password"
-                  placeholder="At least 8 characters"
+                  placeholder="Create password (8+ characters)"
                   value={form.password}
                   onChange={handleChange}
                   style={{ width: '100%', padding: '11px 12px', border: '1px solid #e8e8e8', borderRadius: 8, fontSize: 14, outline: 'none', transition: 'border-color 0.2s', background: '#fafafa' }}
@@ -116,12 +104,6 @@ export default function SignupPage() {
                 />
               </div>
             </div>
-
-            {error && (
-              <div style={{ padding: '10px 14px', background: '#fff2f0', border: '1px solid #ffccc7', borderRadius: 8, marginBottom: 16, fontSize: 13, color: '#ff4d4f' }}>
-                {error}
-              </div>
-            )}
 
             <button
               type="submit"
@@ -144,13 +126,7 @@ export default function SignupPage() {
             </button>
           </form>
 
-          <p style={{ fontSize: 12, color: '#bfbfbf', marginTop: 16, textAlign: 'center' }}>
-            By signing up, you agree to our{' '}
-            <a href="#" style={{ color: '#1677ff', textDecoration: 'none' }}>Terms</a> and{' '}
-            <a href="#" style={{ color: '#1677ff', textDecoration: 'none' }}>Privacy Policy</a>
-          </p>
-
-          <div style={{ marginTop: 20, textAlign: 'center', fontSize: 14, color: '#8c8c8c' }}>
+          <div style={{ marginTop: 20, textAlign: 'center', fontSize: 13, color: '#8c8c8c' }}>
             Already have an account?{' '}
             <Link href="/auth/login" style={{ color: '#1677ff', fontWeight: 600, textDecoration: 'none' }}>
               Sign in
@@ -158,8 +134,8 @@ export default function SignupPage() {
           </div>
         </div>
 
-        <p style={{ textAlign: 'center', fontSize: 13, color: '#bfbfbf', marginTop: 24 }}>
-          © 2026 BrandBase. All rights reserved.
+        <p style={{ marginTop: 20, textAlign: 'center', fontSize: 12, color: '#bfbfbf' }}>
+          By signing up, you agree to our Terms of Service and Privacy Policy.
         </p>
       </div>
     </div>
